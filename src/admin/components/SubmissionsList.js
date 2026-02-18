@@ -50,14 +50,14 @@ const SubmissionsList = () => {
       setSubmissions(response.submissions || []);
     } catch (error) {
       console.error('Error loading submissions:', error);
-      setNotice({ type: 'error', message: __('Failed to load submissions', 'multi-step-form-builder') });
+      setNotice({ type: 'error', message: __('Failed to load submissions', 'jpjuliao-multi-step-form-builder') });
     } finally {
       setLoading(false);
     }
   };
 
   const deleteSubmission = async (submissionId) => {
-    if (!confirm(__('Are you sure you want to delete this submission?', 'multi-step-form-builder'))) {
+    if (!confirm(__('Are you sure you want to delete this submission?', 'jpjuliao-multi-step-form-builder'))) {
       return;
     }
 
@@ -66,17 +66,17 @@ const SubmissionsList = () => {
         path: `/msf/v1/submissions/${submissionId}`,
         method: 'DELETE',
       });
-      setNotice({ type: 'success', message: __('Submission deleted', 'multi-step-form-builder') });
+      setNotice({ type: 'success', message: __('Submission deleted', 'jpjuliao-multi-step-form-builder') });
       loadSubmissions();
     } catch (error) {
       console.error('Error deleting submission:', error);
-      setNotice({ type: 'error', message: __('Failed to delete submission', 'multi-step-form-builder') });
+      setNotice({ type: 'error', message: __('Failed to delete submission', 'jpjuliao-multi-step-form-builder') });
     }
   };
 
   const exportToCSV = () => {
     if (submissions.length === 0) {
-      alert(__('No submissions to export', 'multi-step-form-builder'));
+      alert(__('No submissions to export', 'jpjuliao-multi-step-form-builder'));
       return;
     }
 
@@ -135,10 +135,10 @@ const SubmissionsList = () => {
 
       <div className="msf-submissions-header">
         <SelectControl
-          label={__('Select Form', 'multi-step-form-builder')}
+          label={__('Select Form', 'jpjuliao-multi-step-form-builder')}
           value={selectedForm}
           options={[
-            { label: __('Select a form...', 'multi-step-form-builder'), value: 0 },
+            { label: __('Select a form...', 'jpjuliao-multi-step-form-builder'), value: 0 },
             ...formOptions
           ]}
           onChange={(value) => setSelectedForm(parseInt(value))}
@@ -148,7 +148,7 @@ const SubmissionsList = () => {
           onClick={exportToCSV}
           disabled={submissions.length === 0}
         >
-          {__('Export to CSV', 'multi-step-form-builder')}
+          {__('Export to CSV', 'jpjuliao-multi-step-form-builder')}
         </Button>
       </div>
 
@@ -160,11 +160,11 @@ const SubmissionsList = () => {
         <table className="wp-list-table widefat fixed striped">
           <thead>
             <tr>
-              <th>{__('ID', 'multi-step-form-builder')}</th>
-              <th>{__('Date', 'multi-step-form-builder')}</th>
-              <th>{__('User', 'multi-step-form-builder')}</th>
-              <th>{__('IP Address', 'multi-step-form-builder')}</th>
-              <th>{__('Actions', 'multi-step-form-builder')}</th>
+              <th>{__('ID', 'jpjuliao-multi-step-form-builder')}</th>
+              <th>{__('Date', 'jpjuliao-multi-step-form-builder')}</th>
+              <th>{__('User', 'jpjuliao-multi-step-form-builder')}</th>
+              <th>{__('IP Address', 'jpjuliao-multi-step-form-builder')}</th>
+              <th>{__('Actions', 'jpjuliao-multi-step-form-builder')}</th>
             </tr>
           </thead>
           <tbody>
@@ -172,7 +172,7 @@ const SubmissionsList = () => {
               <tr key={submission.id}>
                 <td>{submission.id}</td>
                 <td>{new Date(submission.created_at).toLocaleString()}</td>
-                <td>{submission.user_id || __('Guest', 'multi-step-form-builder')}</td>
+                <td>{submission.user_id || __('Guest', 'jpjuliao-multi-step-form-builder')}</td>
                 <td>{submission.ip_address}</td>
                 <td>
                   <Button
@@ -180,7 +180,7 @@ const SubmissionsList = () => {
                     isSmall
                     onClick={() => setViewingSubmission(submission)}
                   >
-                    {__('View', 'multi-step-form-builder')}
+                    {__('View', 'jpjuliao-multi-step-form-builder')}
                   </Button>
                   {' '}
                   <Button
@@ -189,7 +189,7 @@ const SubmissionsList = () => {
                     isDestructive
                     onClick={() => deleteSubmission(submission.id)}
                   >
-                    {__('Delete', 'multi-step-form-builder')}
+                    {__('Delete', 'jpjuliao-multi-step-form-builder')}
                   </Button>
                 </td>
               </tr>
@@ -197,20 +197,20 @@ const SubmissionsList = () => {
           </tbody>
         </table>
       ) : (
-        <p>{__('No submissions yet.', 'multi-step-form-builder')}</p>
+        <p>{__('No submissions yet.', 'jpjuliao-multi-step-form-builder')}</p>
       )}
 
       {viewingSubmission && (
         <Modal
-          title={__('Submission Details', 'multi-step-form-builder')}
+          title={__('Submission Details', 'jpjuliao-multi-step-form-builder')}
           onRequestClose={() => setViewingSubmission(null)}
         >
           <div className="msf-submission-details">
-            <p><strong>{__('Date:', 'multi-step-form-builder')}</strong> {new Date(viewingSubmission.created_at).toLocaleString()}</p>
-            <p><strong>{__('User ID:', 'multi-step-form-builder')}</strong> {viewingSubmission.user_id || __('Guest', 'multi-step-form-builder')}</p>
-            <p><strong>{__('IP Address:', 'multi-step-form-builder')}</strong> {viewingSubmission.ip_address}</p>
+            <p><strong>{__('Date:', 'jpjuliao-multi-step-form-builder')}</strong> {new Date(viewingSubmission.created_at).toLocaleString()}</p>
+            <p><strong>{__('User ID:', 'jpjuliao-multi-step-form-builder')}</strong> {viewingSubmission.user_id || __('Guest', 'jpjuliao-multi-step-form-builder')}</p>
+            <p><strong>{__('IP Address:', 'jpjuliao-multi-step-form-builder')}</strong> {viewingSubmission.ip_address}</p>
             <hr />
-            <h3>{__('Form Data', 'multi-step-form-builder')}</h3>
+            <h3>{__('Form Data', 'jpjuliao-multi-step-form-builder')}</h3>
             <table className="widefat">
               <tbody>
                 {Object.entries(viewingSubmission.submission_data).map(([key, value]) => (

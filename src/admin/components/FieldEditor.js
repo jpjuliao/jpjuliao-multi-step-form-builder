@@ -38,16 +38,16 @@ const FieldEditor = ({ field, onUpdate, onDelete }) => {
     <div className="msf-field-editor">
       <div className="msf-field-header" onClick={() => setIsExpanded(!isExpanded)}>
         <span className="msf-field-type-icon">{getFieldIcon(field.type)}</span>
-        <span className="msf-field-label">{field.label || __('Untitled Field', 'multi-step-form-builder')}</span>
+        <span className="msf-field-label">{field.label || __('Untitled Field', 'jpjuliao-multi-step-form-builder')}</span>
         <div className="msf-field-actions">
           <Button
             icon="arrow-down"
-            label={isExpanded ? __('Collapse', 'multi-step-form-builder') : __('Expand', 'multi-step-form-builder')}
+            label={isExpanded ? __('Collapse', 'jpjuliao-multi-step-form-builder') : __('Expand', 'jpjuliao-multi-step-form-builder')}
             className={`msf-toggle-btn ${isExpanded ? 'expanded' : ''}`}
           />
           <Button
             icon="trash"
-            label={__('Delete', 'multi-step-form-builder')}
+            label={__('Delete', 'jpjuliao-multi-step-form-builder')}
             onClick={(e) => {
               e.stopPropagation();
               onDelete();
@@ -60,21 +60,21 @@ const FieldEditor = ({ field, onUpdate, onDelete }) => {
       {isExpanded && (
         <div className="msf-field-config">
           <TextControl
-            label={__('Label', 'multi-step-form-builder')}
+            label={__('Label', 'jpjuliao-multi-step-form-builder')}
             value={field.label}
             onChange={(value) => updateField('label', value)}
           />
 
           <TextControl
-            label={__('Field Name', 'multi-step-form-builder')}
+            label={__('Field Name', 'jpjuliao-multi-step-form-builder')}
             value={field.name}
             onChange={(value) => updateField('name', value)}
-            help={__('Unique identifier for this field (no spaces)', 'multi-step-form-builder')}
+            help={__('Unique identifier for this field (no spaces)', 'jpjuliao-multi-step-form-builder')}
           />
 
           {field.type !== 'checkbox' && field.type !== 'radio' && field.type !== 'select' && (
             <TextControl
-              label={__('Placeholder', 'multi-step-form-builder')}
+              label={__('Placeholder', 'jpjuliao-multi-step-form-builder')}
               value={field.placeholder || ''}
               onChange={(value) => updateField('placeholder', value)}
             />
@@ -82,7 +82,7 @@ const FieldEditor = ({ field, onUpdate, onDelete }) => {
 
           {field.type === 'textarea' && (
             <TextControl
-              label={__('Rows', 'multi-step-form-builder')}
+              label={__('Rows', 'jpjuliao-multi-step-form-builder')}
               type="number"
               value={field.rows || 4}
               onChange={(value) => updateField('rows', parseInt(value))}
@@ -92,19 +92,19 @@ const FieldEditor = ({ field, onUpdate, onDelete }) => {
           {field.type === 'number' && (
             <>
               <TextControl
-                label={__('Min Value', 'multi-step-form-builder')}
+                label={__('Min Value', 'jpjuliao-multi-step-form-builder')}
                 type="number"
                 value={field.min || ''}
                 onChange={(value) => updateField('min', value)}
               />
               <TextControl
-                label={__('Max Value', 'multi-step-form-builder')}
+                label={__('Max Value', 'jpjuliao-multi-step-form-builder')}
                 type="number"
                 value={field.max || ''}
                 onChange={(value) => updateField('max', value)}
               />
               <TextControl
-                label={__('Step', 'multi-step-form-builder')}
+                label={__('Step', 'jpjuliao-multi-step-form-builder')}
                 type="number"
                 value={field.step || '1'}
                 onChange={(value) => updateField('step', value)}
@@ -115,17 +115,17 @@ const FieldEditor = ({ field, onUpdate, onDelete }) => {
           {hasOptions && (
             <div className="msf-options-editor">
               <label className="components-base-control__label">
-                {__('Options', 'multi-step-form-builder')}
+                {__('Options', 'jpjuliao-multi-step-form-builder')}
               </label>
               {field.options?.map((option, index) => (
                 <div key={index} className="msf-option-row">
                   <TextControl
-                    placeholder={__('Label', 'multi-step-form-builder')}
+                    placeholder={__('Label', 'jpjuliao-multi-step-form-builder')}
                     value={option.label}
                     onChange={(value) => updateOption(index, 'label', value)}
                   />
                   <TextControl
-                    placeholder={__('Value', 'multi-step-form-builder')}
+                    placeholder={__('Value', 'jpjuliao-multi-step-form-builder')}
                     value={option.value}
                     onChange={(value) => updateOption(index, 'value', value)}
                   />
@@ -138,20 +138,20 @@ const FieldEditor = ({ field, onUpdate, onDelete }) => {
                 </div>
               ))}
               <Button onClick={addOption} variant="secondary" isSmall>
-                {__('Add Option', 'multi-step-form-builder')}
+                {__('Add Option', 'jpjuliao-multi-step-form-builder')}
               </Button>
             </div>
           )}
 
           <TextareaControl
-            label={__('Help Text', 'multi-step-form-builder')}
+            label={__('Help Text', 'jpjuliao-multi-step-form-builder')}
             value={field.helpText || ''}
             onChange={(value) => updateField('helpText', value)}
             rows={2}
           />
 
           <ToggleControl
-            label={__('Required', 'multi-step-form-builder')}
+            label={__('Required', 'jpjuliao-multi-step-form-builder')}
             checked={field.required || false}
             onChange={(value) => updateField('required', value)}
           />

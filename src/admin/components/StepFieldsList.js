@@ -8,7 +8,7 @@ const StepFieldsList = ({ fields, onUpdateField, onDeleteField, onMoveField }) =
   if (!fields || fields.length === 0) {
     return (
       <p className="msf-empty-message">
-        {__('No fields yet. Add your first field below.', 'multi-step-form-builder')}
+        {__('No fields yet. Add your first field below.', 'jpjuliao-multi-step-form-builder')}
       </p>
     );
   }

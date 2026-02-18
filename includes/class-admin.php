@@ -84,8 +84,8 @@ class Admin
   {
     \add_submenu_page(
       'edit.php?post_type=msf_form',
-      __('Submissions', 'multi-step-form-builder'),
-      __('Submissions', 'multi-step-form-builder'),
+      __('Submissions', 'jpjuliao-multi-step-form-builder'),
+      __('Submissions', 'jpjuliao-multi-step-form-builder'),
       'manage_options',
       'msf-submissions',
       array($this, 'render_submissions_page')
@@ -97,7 +97,7 @@ class Admin
 ?>
     <div class="wrap">
       <h1>
-        <?php esc_html_e('Form Submissions', 'multi-step-form-builder'); ?>
+        <?php esc_html_e('Form Submissions', 'jpjuliao-multi-step-form-builder'); ?>
       </h1>
       <div id="msf-submissions-root"></div>
     </div>

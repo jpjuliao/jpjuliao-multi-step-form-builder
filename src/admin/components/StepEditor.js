@@ -51,7 +51,7 @@ const StepEditor = ({ step, stepIndex, onUpdate, onDelete }) => {
         />
 
         <div className="msf-fields-list">
-          <h4>{__('Fields', 'multi-step-form-builder')}</h4>
+          <h4>{__('Fields', 'jpjuliao-multi-step-form-builder')}</h4>
           <StepFieldsList
             fields={step.fields}
             onUpdateField={updateField}

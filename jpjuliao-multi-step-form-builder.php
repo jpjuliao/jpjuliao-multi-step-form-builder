@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: Multi Step Form Builder by JPJuliao
+ * Plugin Name: JPJuliao — Multi Step Form Builder
  * Description: A comprehensive multi-step form builder plugin with drag-and-drop interface.
  * Version: 1.2.3
  * Author: Juan Pablo Juliao
  * Author URI: https://jpjuliao.github.io/
- * Text Domain: multi-step-form-builder-by-jpjuliao
+ * Text Domain: jpjuliao-multi-step-form-builder
  * Domain Path: /languages
  * License: GPL2
  * Tested up to: 6.9

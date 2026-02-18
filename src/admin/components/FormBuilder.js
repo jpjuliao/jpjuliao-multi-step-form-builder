@@ -32,7 +32,7 @@ const FormBuilder = () => {
     return (
       <div className="msf-loading">
         <Spinner />
-        <p>{__('Loading form...', 'multi-step-form-builder')}</p>
+        <p>{__('Loading form...', 'jpjuliao-multi-step-form-builder')}</p>
       </div>
     );
   }
@@ -40,17 +40,17 @@ const FormBuilder = () => {
   const tabs = [
     {
       name: 'steps',
-      title: __('Steps', 'multi-step-form-builder'),
+      title: __('Steps', 'jpjuliao-multi-step-form-builder'),
       className: 'msf-tab-steps',
     },
     {
       name: 'header',
-      title: __('Header', 'multi-step-form-builder'),
+      title: __('Header', 'jpjuliao-multi-step-form-builder'),
       className: 'msf-tab-header',
     },
     {
       name: 'settings',
-      title: __('Settings', 'multi-step-form-builder'),
+      title: __('Settings', 'jpjuliao-multi-step-form-builder'),
       className: 'msf-tab-settings',
     },
   ];
@@ -74,7 +74,7 @@ const FormBuilder = () => {
           isBusy={saving}
           disabled={saving}
         >
-          {saving ? __('Saving...', 'multi-step-form-builder') : __('Save Form', 'multi-step-form-builder')}
+          {saving ? __('Saving...', 'jpjuliao-multi-step-form-builder') : __('Save Form', 'jpjuliao-multi-step-form-builder')}
         </Button>
       </div>
 
@@ -105,14 +105,14 @@ const FormBuilder = () => {
                         <div key={step.id || index} className="msf-step-wrapper">
                           <div className="msf-step-controls">
                             <span className="msf-step-number">
-                              {__('Step', 'multi-step-form-builder')} {index + 1}
+                              {__('Step', 'jpjuliao-multi-step-form-builder')} {index + 1}
                             </span>
                             <div className="msf-step-move-buttons">
                               {index > 0 && (
                                 <Button
                                   icon="arrow-up"
                                   onClick={() => moveStep(index, index - 1)}
-                                  label={__('Move Up', 'multi-step-form-builder')}
+                                  label={__('Move Up', 'jpjuliao-multi-step-form-builder')}
                                   isSmall
                                 />
                               )}
@@ -120,7 +120,7 @@ const FormBuilder = () => {
                                 <Button
                                   icon="arrow-down"
                                   onClick={() => moveStep(index, index + 1)}
-                                  label={__('Move Down', 'multi-step-form-builder')}
+                                  label={__('Move Down', 'jpjuliao-multi-step-form-builder')}
                                   isSmall
                                 />
                               )}
@@ -136,11 +136,11 @@ const FormBuilder = () => {
                       ))
                     ) : (
                       <div className="msf-empty-state">
-                        <p>{__('No steps yet. Add your first step to get started.', 'multi-step-form-builder')}</p>
+                        <p>{__('No steps yet. Add your first step to get started.', 'jpjuliao-multi-step-form-builder')}</p>
                       </div>
                     )}
                     <Button variant="secondary" onClick={addStep} className="msf-add-step-btn">
-                      {__('Add Step', 'multi-step-form-builder')}
+                      {__('Add Step', 'jpjuliao-multi-step-form-builder')}
                     </Button>
                   </div>
                 );

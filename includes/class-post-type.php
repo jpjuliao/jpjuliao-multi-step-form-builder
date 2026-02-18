@@ -20,17 +20,17 @@ class Post_Type
   public function register_post_type(): void
   {
     $labels = array(
-      'name' => __('Forms', 'multi-step-form-builder'),
-      'singular_name' => __('Form', 'multi-step-form-builder'),
-      'menu_name' => __('Forms', 'multi-step-form-builder'),
-      'add_new' => __('Add New', 'multi-step-form-builder'),
-      'add_new_item' => __('Add New Form', 'multi-step-form-builder'),
-      'edit_item' => __('Edit Form', 'multi-step-form-builder'),
-      'new_item' => __('New Form', 'multi-step-form-builder'),
-      'view_item' => __('View Form', 'multi-step-form-builder'),
-      'search_items' => __('Search Forms', 'multi-step-form-builder'),
-      'not_found' => __('No forms found', 'multi-step-form-builder'),
-      'not_found_in_trash' => __('No forms found in trash', 'multi-step-form-builder'),
+      'name' => __('Forms', 'jpjuliao-multi-step-form-builder'),
+      'singular_name' => __('Form', 'jpjuliao-multi-step-form-builder'),
+      'menu_name' => __('Forms', 'jpjuliao-multi-step-form-builder'),
+      'add_new' => __('Add New', 'jpjuliao-multi-step-form-builder'),
+      'add_new_item' => __('Add New Form', 'jpjuliao-multi-step-form-builder'),
+      'edit_item' => __('Edit Form', 'jpjuliao-multi-step-form-builder'),
+      'new_item' => __('New Form', 'jpjuliao-multi-step-form-builder'),
+      'view_item' => __('View Form', 'jpjuliao-multi-step-form-builder'),
+      'search_items' => __('Search Forms', 'jpjuliao-multi-step-form-builder'),
+      'not_found' => __('No forms found', 'jpjuliao-multi-step-form-builder'),
+      'not_found_in_trash' => __('No forms found in trash', 'jpjuliao-multi-step-form-builder'),
     );
 
     $args = array(
@@ -55,7 +55,7 @@ class Post_Type
   {
     \add_meta_box(
       'msf_form_builder',
-      __('Form Builder', 'multi-step-form-builder'),
+      __('Form Builder', 'jpjuliao-multi-step-form-builder'),
       array($this, 'render_form_builder'),
       'msf_form',
       'normal',
@@ -64,7 +64,7 @@ class Post_Type
 
     \add_meta_box(
       'msf_form_shortcode',
-      __('Shortcode', 'multi-step-form-builder'),
+      __('Shortcode', 'jpjuliao-multi-step-form-builder'),
       array($this, 'render_shortcode_box'),
       'msf_form',
       'side',
@@ -81,11 +81,11 @@ class Post_Type
   public function render_shortcode_box(\WP_Post $post): void
   {
     if ($post->ID) {
-      echo '<p>' . esc_html__('Use this shortcode to display the form:', 'multi-step-form-builder') . '</p>';
+      echo '<p>' . esc_html__('Use this shortcode to display the form:', 'jpjuliao-multi-step-form-builder') . '</p>';
       echo '<code>[multi_step_form id="' . esc_attr($post->ID) . '"]</code>';
       echo '<p><button type="button" class="button button-small" onclick="navigator.clipboard.writeText(\'[multi_step_form id=&quot;' . esc_attr($post->ID) . '&quot;]\'))">Copy Shortcode</button></p>';
     } else {
-      echo '<p>' . esc_html__('Save the form to get the shortcode.', 'multi-step-form-builder') . '</p>';
+      echo '<p>' . esc_html__('Save the form to get the shortcode.', 'jpjuliao-multi-step-form-builder') . '</p>';
     }
   }
 

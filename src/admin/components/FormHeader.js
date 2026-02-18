@@ -14,32 +14,32 @@ const FormHeader = ({ formConfig, updateFormConfig }) => {
   return (
     <div className="msf-form-header-settings">
       <ToggleControl
-        label={__('Show Title', 'multi-step-form-builder')}
+        label={__('Show Title', 'jpjuliao-multi-step-form-builder')}
         checked={showTitle}
         onChange={(value) => updateHeader('showTitle', value)}
       />
 
       {showTitle && (
         <TextControl
-          label={__('Form Title', 'multi-step-form-builder')}
+          label={__('Form Title', 'jpjuliao-multi-step-form-builder')}
           value={title || ''}
           onChange={(value) => updateHeader('title', value)}
-          placeholder={__('Enter form title', 'multi-step-form-builder')}
+          placeholder={__('Enter form title', 'jpjuliao-multi-step-form-builder')}
         />
       )}
 
       <ToggleControl
-        label={__('Show Description', 'multi-step-form-builder')}
+        label={__('Show Description', 'jpjuliao-multi-step-form-builder')}
         checked={showDescription}
         onChange={(value) => updateHeader('showDescription', value)}
       />
 
       {showDescription && (
         <TextareaControl
-          label={__('Form Description', 'multi-step-form-builder')}
+          label={__('Form Description', 'jpjuliao-multi-step-form-builder')}
           value={description || ''}
           onChange={(value) => updateHeader('description', value)}
-          placeholder={__('Enter form description', 'multi-step-form-builder')}
+          placeholder={__('Enter form description', 'jpjuliao-multi-step-form-builder')}
           rows={3}
         />
       )}

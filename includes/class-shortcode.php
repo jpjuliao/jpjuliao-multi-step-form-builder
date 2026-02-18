@@ -20,12 +20,12 @@ class Shortcode
     $form_id = intval($atts['id']);
 
     if (!$form_id) {
-      return '<p>' . __('Please provide a valid form ID.', 'multi-step-form-builder') . '</p>';
+      return '<p>' . __('Please provide a valid form ID.', 'jpjuliao-multi-step-form-builder') . '</p>';
     }
 
     $post = \get_post($form_id);
     if (!$post || $post->post_type !== 'msf_form') {
-      return '<p>' . __('Form not found.', 'multi-step-form-builder') . '</p>';
+      return '<p>' . __('Form not found.', 'jpjuliao-multi-step-form-builder') . '</p>';
     }
 
     return sprintf(
@@ -38,18 +38,18 @@ class Shortcode
   {
     $atts = \shortcode_atts(array(
       'id' => 0,
-      'label' => __('Open Form', 'multi-step-form-builder'),
+      'label' => __('Open Form', 'jpjuliao-multi-step-form-builder'),
     ), $atts);
 
     $form_id = intval($atts['id']);
 
     if (!$form_id) {
-      return '<p>' . __('Please provide a valid form ID.', 'multi-step-form-builder') . '</p>';
+      return '<p>' . __('Please provide a valid form ID.', 'jpjuliao-multi-step-form-builder') . '</p>';
     }
 
     $post = \get_post($form_id);
     if (!$post || $post->post_type !== 'msf_form') {
-      return '<p>' . __('Form not found.', 'multi-step-form-builder') . '</p>';
+      return '<p>' . __('Form not found.', 'jpjuliao-multi-step-form-builder') . '</p>';
     }
 
     return sprintf(

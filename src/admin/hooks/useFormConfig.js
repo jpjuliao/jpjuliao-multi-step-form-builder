@@ -16,7 +16,7 @@ export const useFormConfig = (formId) => {
       const response = await FormsService.getForm(formId);
       setFormConfig(response);
     } catch (error) {
-      setNotice({ type: 'error', message: __('Failed to load form', 'multi-step-form-builder') });
+      setNotice({ type: 'error', message: __('Failed to load form', 'jpjuliao-multi-step-form-builder') });
     } finally {
       setLoading(false);
     }
@@ -28,10 +28,10 @@ export const useFormConfig = (formId) => {
       isSyncingRef.current = true;
       await FormsService.saveForm(formId, formConfig);
       triggerPostUpdate();
-      setNotice({ type: 'success', message: __('Form saved successfully!', 'multi-step-form-builder') });
+      setNotice({ type: 'success', message: __('Form saved successfully!', 'jpjuliao-multi-step-form-builder') });
       setTimeout(() => setNotice(null), 3000);
     } catch (error) {
-      setNotice({ type: 'error', message: __('Failed to save form', 'multi-step-form-builder') });
+      setNotice({ type: 'error', message: __('Failed to save form', 'jpjuliao-multi-step-form-builder') });
     } finally {
       setSaving(false);
       isSyncingRef.current = false;

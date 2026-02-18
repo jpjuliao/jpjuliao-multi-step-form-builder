@@ -1,4 +1,4 @@
-# Multi-Step Form Builder Plugin
+# Multi-Step Form Builder Wordpress Plugin
 
 A comprehensive WordPress plugin that allows you to create beautiful, multi-step forms with a drag-and-drop interface.
 

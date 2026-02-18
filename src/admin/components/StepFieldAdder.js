@@ -18,8 +18,8 @@ const StepFieldAdder = ({ onAddField }) => {
         onClick={() => setShowFieldTypes(!showFieldTypes)}
       >
         {showFieldTypes
-          ? __('Hide Field Types', 'multi-step-form-builder')
-          : __('Add Field', 'multi-step-form-builder')}
+          ? __('Hide Field Types', 'jpjuliao-multi-step-form-builder')
+          : __('Add Field', 'jpjuliao-multi-step-form-builder')}
       </Button>
 
       {showFieldTypes && (
