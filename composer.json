@@ -22,8 +22,8 @@
     }
   },
   "scripts": {
-    "lint": "phpcs --standard=WordPress includes tests",
-    "lint-fix": "phpcbf --standard=WordPress includes tests",
+    "format": "phpcbf",
+    "lint": "phpcs",
     "test": "phpunit"
   },
   "config": {

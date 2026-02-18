@@ -1,0 +1,10 @@
+{
+  "[php]": {
+    "editor.defaultFormatter": "ValeryanM.vscode-phpsab",
+    "editor.formatOnSave": true
+  },
+  "phpsab.executablePathCBF": "./vendor/bin/phpcbf",
+  "phpsab.executablePathCS": "./vendor/bin/phpcs",
+  "phpsab.standard": "PSR12",
+  "phpsab.autoRulesetSearch": true
+}

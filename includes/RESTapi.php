@@ -1,222 +1,242 @@
 <?php
 
-namespace JPJULIAO\Wordpress\MultiStepFormBuilder;
+namespace JPJULIAO\WordPress\MultiStepFormBuilder;
 
-if (!defined('ABSPATH')) {
-  exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
-class RESTapi
-{
+class RESTapi {
 
-  private Database $database;
 
-  public function __construct(Database $database)
-  {
-    $this->database = $database;
-    \add_action('rest_api_init', [$this, 'register_routes']);
-  }
+	private Database $database;
 
-  public function register_routes(): void
-  {
+	public function __construct( Database $database ) {
+		$this->database = $database;
+		\add_action( 'rest_api_init', array( $this, 'register_routes' ) );
+	}
 
-    \register_rest_route('msf/v1', '/forms/(?P<id>\d+)/submit', [
-      'methods' => 'POST',
-      'callback' => [$this, 'submit_form'],
-      'permission_callback' => '__return_true',
-    ]);
+	public function register_routes(): void {
 
-    \register_rest_route('msf/v1', '/forms/(?P<id>\d+)/submissions', [
-      'methods' => 'GET',
-      'callback' => [$this, 'get_submissions'],
-      'permission_callback' => [$this, 'check_admin_permission'],
-    ]);
+		\register_rest_route(
+			'msf/v1',
+			'/forms/(?P<id>\d+)/submit',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'submit_form' ),
+				'permission_callback' => '__return_true',
+			)
+		);
 
-    \register_rest_route('msf/v1', '/forms/(?P<id>\d+)', [
-      'methods' => 'GET',
-      'callback' => [$this, 'get_form'],
-      'permission_callback' => '__return_true',
-    ]);
+		\register_rest_route(
+			'msf/v1',
+			'/forms/(?P<id>\d+)/submissions',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'get_submissions' ),
+				'permission_callback' => array( $this, 'check_admin_permission' ),
+			)
+		);
 
-    \register_rest_route('msf/v1', '/forms/(?P<id>\d+)', [
-      'methods' => 'POST',
-      'callback' => [$this, 'save_form'],
-      'permission_callback' => [$this, 'check_admin_permission'],
-    ]);
+		\register_rest_route(
+			'msf/v1',
+			'/forms/(?P<id>\d+)',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'get_form' ),
+				'permission_callback' => '__return_true',
+			)
+		);
 
-    \register_rest_route('msf/v1', '/submissions/(?P<id>\d+)', [
-      'methods' => 'DELETE',
-      'callback' => [$this, 'delete_submission'],
-      'permission_callback' => [$this, 'check_admin_permission'],
-    ]);
-  }
+		\register_rest_route(
+			'msf/v1',
+			'/forms/(?P<id>\d+)',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'save_form' ),
+				'permission_callback' => array( $this, 'check_admin_permission' ),
+			)
+		);
 
-  public function get_form(\WP_REST_Request $request): \WP_REST_Response
-  {
-    $form_id = $request->get_param('id');
+		\register_rest_route(
+			'msf/v1',
+			'/submissions/(?P<id>\d+)',
+			array(
+				'methods'             => 'DELETE',
+				'callback'            => array( $this, 'delete_submission' ),
+				'permission_callback' => array( $this, 'check_admin_permission' ),
+			)
+		);
+	}
 
-    $form_config = \get_post_meta($form_id, '_msf_form_config', true);
+	public function get_form( \WP_REST_Request $request ): \WP_REST_Response {
+		$form_id = $request->get_param( 'id' );
 
-    if (is_string($form_config)) {
-      $form_config = json_decode($form_config, true);
-    }
+		$form_config = \get_post_meta( $form_id, '_msf_form_config', true );
 
-    if (empty($form_config) || !is_array($form_config)) {
-      $form_config = [
-        'steps' => [],
-        'settings' => [
-          'submitButtonText' => 'Submit',
-          'successMessage' => 'Thank you for your submission!',
-          'nextButtonText' => 'Next',
-          'previousButtonText' => 'Previous',
-        ]
-      ];
-    }
+		if ( is_string( $form_config ) ) {
+			$form_config = json_decode( $form_config, true );
+		}
 
-    return \rest_ensure_response($form_config);
-  }
+		if ( empty( $form_config ) || ! is_array( $form_config ) ) {
+			$form_config = array(
+				'steps'    => array(),
+				'settings' => array(
+					'submitButtonText'   => 'Submit',
+					'successMessage'     => 'Thank you for your submission!',
+					'nextButtonText'     => 'Next',
+					'previousButtonText' => 'Previous',
+				),
+			);
+		}
 
-  public function save_form(\WP_REST_Request $request): \WP_REST_Response
-  {
-    $form_id = $request->get_param('id');
-    $form_config = json_encode($request->get_json_params());
+		return \rest_ensure_response( $form_config );
+	}
 
-    \update_post_meta($form_id, '_msf_form_config', $form_config);
+	public function save_form( \WP_REST_Request $request ): \WP_REST_Response {
+		$form_id     = $request->get_param( 'id' );
+		$form_config = json_encode( $request->get_json_params() );
 
-    return \rest_ensure_response([
-      'success' => true,
-      'message' => 'Form saved successfully'
-    ]);
-  }
+		\update_post_meta( $form_id, '_msf_form_config', $form_config );
 
-  public function submit_form(\WP_REST_Request $request): \WP_REST_Response|\WP_Error
-  {
-    $form_id = $request->get_param('id');
-    $data = $request->get_json_params();
+		return \rest_ensure_response(
+			array(
+				'success' => true,
+				'message' => 'Form saved successfully',
+			)
+		);
+	}
 
-    $post = \get_post($form_id);
-    if (!$post || $post->post_type !== 'msf_form') {
-      return new \WP_Error('invalid_form', 'Invalid form ID', ['status' => 404]);
-    }
+	public function submit_form( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
+		$form_id = $request->get_param( 'id' );
+		$data    = $request->get_json_params();
 
-    $form_config = \get_post_meta($form_id, '_msf_form_config', true);
+		$post = \get_post( $form_id );
+		if ( ! $post || $post->post_type !== 'msf_form' ) {
+			return new \WP_Error( 'invalid_form', 'Invalid form ID', array( 'status' => 404 ) );
+		}
 
-    if (is_string($form_config)) {
-      $form_config = json_decode($form_config, true);
-    }
+		$form_config = \get_post_meta( $form_id, '_msf_form_config', true );
 
-    $errors = $this->validate_submission($data, $form_config);
-    if (!empty($errors)) {
-      return new \WP_Error('validation_failed', 'Validation failed', [
-        'status' => 400,
-        'errors' => $errors
-      ]);
-    }
+		if ( is_string( $form_config ) ) {
+			$form_config = json_decode( $form_config, true );
+		}
 
-    $sanitized_data = $this->sanitize_submission($data);
+		$errors = $this->validate_submission( $data, $form_config );
+		if ( ! empty( $errors ) ) {
+			return new \WP_Error(
+				'validation_failed',
+				'Validation failed',
+				array(
+					'status' => 400,
+					'errors' => $errors,
+				)
+			);
+		}
 
-    $submission_id = $this->database->save_submission($form_id, $sanitized_data);
+		$sanitized_data = $this->sanitize_submission( $data );
 
-    if ($submission_id) {
-      $success_message = isset($form_config['settings']['successMessage'])
-        ? $form_config['settings']['successMessage']
-        : 'Thank you for your submission!';
+		$submission_id = $this->database->save_submission( $form_id, $sanitized_data );
 
-      return \rest_ensure_response([
-        'success' => true,
-        'message' => $success_message,
-        'submission_id' => $submission_id
-      ]);
-    } else {
-      return new \WP_Error('submission_failed', 'Failed to save submission', ['status' => 500]);
-    }
-  }
+		if ( $submission_id ) {
+			$success_message = isset( $form_config['settings']['successMessage'] )
+			? $form_config['settings']['successMessage']
+			: 'Thank you for your submission!';
 
-  public function get_submissions(\WP_REST_Request $request): \WP_REST_Response
-  {
-    $form_id = $request->get_param('id');
-    $page = $request->get_param('page') ?: 1;
-    $per_page = $request->get_param('per_page') ?: 50;
+			return \rest_ensure_response(
+				array(
+					'success'       => true,
+					'message'       => $success_message,
+					'submission_id' => $submission_id,
+				)
+			);
+		} else {
+			return new \WP_Error( 'submission_failed', 'Failed to save submission', array( 'status' => 500 ) );
+		}
+	}
 
-    $offset = ($page - 1) * $per_page;
+	public function get_submissions( \WP_REST_Request $request ): \WP_REST_Response {
+		$form_id  = $request->get_param( 'id' );
+		$page     = $request->get_param( 'page' ) ?: 1;
+		$per_page = $request->get_param( 'per_page' ) ?: 50;
 
-    $submissions = $this->database->get_submissions($form_id, $per_page, $offset);
-    $total = $this->database->get_submission_count($form_id);
+		$offset = ( $page - 1 ) * $per_page;
 
-    return \rest_ensure_response([
-      'submissions' => $submissions,
-      'total' => $total,
-      'page' => $page,
-      'per_page' => $per_page,
-      'total_pages' => ceil($total / $per_page)
-    ]);
-  }
+		$submissions = $this->database->get_submissions( $form_id, $per_page, $offset );
+		$total       = $this->database->get_submission_count( $form_id );
 
-  public function delete_submission(\WP_REST_Request $request): \WP_REST_Response|\WP_Error
-  {
-    $submission_id = $request->get_param('id');
+		return \rest_ensure_response(
+			array(
+				'submissions' => $submissions,
+				'total'       => $total,
+				'page'        => $page,
+				'per_page'    => $per_page,
+				'total_pages' => ceil( $total / $per_page ),
+			)
+		);
+	}
 
-    $result = $this->database->delete_submission($submission_id);
+	public function delete_submission( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
+		$submission_id = $request->get_param( 'id' );
 
-    if ($result) {
-      return \rest_ensure_response(['success' => true]);
-    } else {
-      return new \WP_Error('delete_failed', 'Failed to delete submission', ['status' => 500]);
-    }
-  }
+		$result = $this->database->delete_submission( $submission_id );
 
-  private function validate_submission(array $data, array $form_config): array
-  {
-    $errors = [];
+		if ( $result ) {
+			return \rest_ensure_response( array( 'success' => true ) );
+		} else {
+			return new \WP_Error( 'delete_failed', 'Failed to delete submission', array( 'status' => 500 ) );
+		}
+	}
 
-    if (empty($form_config['steps'])) {
-      return $errors;
-    }
+	private function validate_submission( array $data, array $form_config ): array {
+		$errors = array();
 
-    foreach ($form_config['steps'] as $step) {
-      if (empty($step['fields'])) {
-        continue;
-      }
+		if ( empty( $form_config['steps'] ) ) {
+			return $errors;
+		}
 
-      foreach ($step['fields'] as $field) {
-        $field_name = $field['name'];
-        $field_value = isset($data[$field_name]) ? $data[$field_name] : '';
+		foreach ( $form_config['steps'] as $step ) {
+			if ( empty( $step['fields'] ) ) {
+				continue;
+			}
 
-        if (!empty($field['required']) && empty($field_value)) {
-          $errors[$field_name] = $field['label'] . ' is required';
-          continue;
-        }
+			foreach ( $step['fields'] as $field ) {
+				$field_name  = $field['name'];
+				$field_value = isset( $data[ $field_name ] ) ? $data[ $field_name ] : '';
 
-        if ($field['type'] === 'email' && !empty($field_value) && !\is_email($field_value)) {
-          $errors[$field_name] = 'Please enter a valid email address';
-        }
+				if ( ! empty( $field['required'] ) && empty( $field_value ) ) {
+					$errors[ $field_name ] = $field['label'] . ' is required';
+					continue;
+				}
 
-        if ($field['type'] === 'url' && !empty($field_value) && !filter_var($field_value, FILTER_VALIDATE_URL)) {
-          $errors[$field_name] = 'Please enter a valid URL';
-        }
-      }
-    }
+				if ( $field['type'] === 'email' && ! empty( $field_value ) && ! \is_email( $field_value ) ) {
+					$errors[ $field_name ] = 'Please enter a valid email address';
+				}
 
-    return $errors;
-  }
+				if ( $field['type'] === 'url' && ! empty( $field_value ) && ! filter_var( $field_value, FILTER_VALIDATE_URL ) ) {
+					$errors[ $field_name ] = 'Please enter a valid URL';
+				}
+			}
+		}
 
-  private function sanitize_submission(array $data): array
-  {
-    $sanitized = [];
+		return $errors;
+	}
 
-    foreach ($data as $key => $value) {
-      if (is_array($value)) {
-        $sanitized[$key] = array_map('\sanitize_text_field', $value);
-      } else {
-        $sanitized[$key] = \sanitize_text_field($value);
-      }
-    }
+	private function sanitize_submission( array $data ): array {
+		$sanitized = array();
 
-    return $sanitized;
-  }
+		foreach ( $data as $key => $value ) {
+			if ( is_array( $value ) ) {
+				$sanitized[ $key ] = array_map( '\sanitize_text_field', $value );
+			} else {
+				$sanitized[ $key ] = \sanitize_text_field( $value );
+			}
+		}
 
-  public function check_admin_permission(): bool
-  {
-    return \current_user_can('manage_options');
-  }
+		return $sanitized;
+	}
+
+	public function check_admin_permission(): bool {
+		return \current_user_can( 'manage_options' );
+	}
 }

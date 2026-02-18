@@ -1,57 +1,53 @@
 <?php
 
-namespace JPJULIAO\Wordpress\MultiStepFormBuilder;
+namespace JPJULIAO\WordPress\MultiStepFormBuilder;
 
-if (!defined('ABSPATH')) {
-  exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
-class Plugin
-{
+class Plugin {
 
-  private static ?Plugin $instance = null;
 
-  private Database $database;
-  private PostType $post_type;
-  private Admin $admin;
-  private Frontend $frontend;
-  private Shortcode $shortcode;
-  private RESTapi $rest_api;
 
-  public static function get_instance(): Plugin
-  {
-    if (self::$instance === null) {
-      self::$instance = new self();
-    }
-    return self::$instance;
-  }
+	private static ?Plugin $instance = null;
 
-  private function __construct()
-  {
-    $this->init_components();
+	private Database $database;
+	private PostType $post_type;
+	private Admin $admin;
+	private Frontend $frontend;
+	private Shortcode $shortcode;
+	private RESTapi $rest_api;
 
-    \register_activation_hook(dirname(__DIR__) . '/multi-step-form-builder.php', array($this, 'activate'));
-    \register_deactivation_hook(dirname(__DIR__) . '/multi-step-form-builder.php', array($this, 'deactivate'));
-  }
+	public static function get_instance(): Plugin {
+		if ( self::$instance === null ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
 
-  private function init_components(): void
-  {
-    $this->database = new Database();
-    $this->post_type = new PostType();
-    $this->admin = new Admin();
-    $this->frontend = new Frontend();
-    $this->shortcode = new Shortcode();
-    $this->rest_api = new RESTapi($this->database);
-  }
+	private function __construct() {
+		$this->init_components();
 
-  public function activate(): void
-  {
-    $this->database->create_table();
-    \flush_rewrite_rules();
-  }
+		\register_activation_hook( dirname( __DIR__ ) . '/multi-step-form-builder.php', array( $this, 'activate' ) );
+		\register_deactivation_hook( dirname( __DIR__ ) . '/multi-step-form-builder.php', array( $this, 'deactivate' ) );
+	}
 
-  public function deactivate(): void
-  {
-    \flush_rewrite_rules();
-  }
+	private function init_components(): void {
+		$this->database  = new Database();
+		$this->post_type = new PostType();
+		$this->admin     = new Admin();
+		$this->frontend  = new Frontend();
+		$this->shortcode = new Shortcode();
+		$this->rest_api  = new RESTapi( $this->database );
+	}
+
+	public function activate(): void {
+		$this->database->create_table();
+		\flush_rewrite_rules();
+	}
+
+	public function deactivate(): void {
+		\flush_rewrite_rules();
+	}
 }

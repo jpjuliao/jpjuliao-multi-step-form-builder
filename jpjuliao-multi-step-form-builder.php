@@ -11,7 +11,7 @@
  * Tested up to: 6.9
  */
 
-namespace JPJULIAO\Wordpress\MultiStepFormBuilder;
+namespace JPJULIAO\WordPress\MultiStepFormBuilder;
 
 if (!defined('ABSPATH')) {
   exit;
