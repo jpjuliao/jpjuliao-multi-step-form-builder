@@ -20,7 +20,7 @@ class Plugin {
 	private RESTapi $rest_api;
 
 	public static function get_instance(): Plugin {
-		if ( self::$instance === null ) {
+		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
 		return self::$instance;

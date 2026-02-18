@@ -8,8 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Database {
 
-
-
 	private string $table_name;
 
 	public function __construct() {
@@ -54,7 +52,7 @@ class Database {
 			$this->table_name,
 			array(
 				'form_id'         => $form_id,
-				'user_id'         => $user_id ?: null,
+				'user_id'         => $user_id ? $user_id : null,
 				'submission_data' => \wp_json_encode( $data ),
 				'ip_address'      => $ip_address,
 				'user_agent'      => $user_agent,
@@ -62,7 +60,7 @@ class Database {
 			array( '%d', '%d', '%s', '%s', '%s' )
 		);
 
-		return $result !== false ? $wpdb->insert_id : false;
+		return false !== $result ? $wpdb->insert_id : false;
 	}
 
 	public function get_submissions( int $form_id, int $limit = 50, int $offset = 0 ): array {

@@ -30,7 +30,7 @@ class Shortcode {
 		}
 
 		$post = \get_post( $form_id );
-		if ( ! $post || $post->post_type !== 'msf_form' ) {
+		if ( ! $post || 'msf_form' !== $post->post_type ) {
 			return '<p>' . __( 'Form not found.', 'jpjuliao-multi-step-form-builder' ) . '</p>';
 		}
 
@@ -56,7 +56,7 @@ class Shortcode {
 		}
 
 		$post = \get_post( $form_id );
-		if ( ! $post || $post->post_type !== 'msf_form' ) {
+		if ( ! $post || 'msf_form' !== $post->post_type ) {
 			return '<p>' . __( 'Form not found.', 'jpjuliao-multi-step-form-builder' ) . '</p>';
 		}
 

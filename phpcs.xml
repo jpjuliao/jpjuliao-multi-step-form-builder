@@ -20,5 +20,8 @@
     <exclude name="Squiz.Commenting.FileComment"/>
     <exclude name="Squiz.Commenting.FunctionComment"/>
     <exclude name="Squiz.Commenting.ClassComment"/>
+    <exclude name="Squiz.Commenting.VariableComment"/>
+    <!-- ERROR | Using short ternaries is not allowed as they are rarely used correctly -->
+    <exclude name="WordPress.PHP.DisallowShortTernary.Found"/>  
   </rule>
 </ruleset>

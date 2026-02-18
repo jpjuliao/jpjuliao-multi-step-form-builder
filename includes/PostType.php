@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class PostType {
 
+
 	public function __construct() {
 		\add_action( 'init', array( $this, 'register_post_type' ) );
 		\add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
@@ -67,7 +68,7 @@ class PostType {
 		);
 	}
 
-	public function render_form_builder( \WP_Post $post ): void {
+	public function render_form_builder(): void {
 		\wp_nonce_field( 'msf_save_form', 'msf_form_nonce' );
 		echo '<div id="msf-form-builder-root"></div>';
 	}
@@ -82,10 +83,10 @@ class PostType {
 		}
 	}
 
-	public function save_form_meta( int $post_id, \WP_Post $post ): void {
+	public function save_form_meta( int $post_id ): void {
 		$nonce = isset( $_POST['msf_form_nonce'] )
-		? sanitize_text_field( \wp_unslash( $_POST['msf_form_nonce'] ) )
-		: '';
+			? sanitize_text_field( \wp_unslash( $_POST['msf_form_nonce'] ) )
+			: '';
 
 		if ( ! $nonce || ! \wp_verify_nonce( $nonce, 'msf_save_form' ) ) {
 			return;

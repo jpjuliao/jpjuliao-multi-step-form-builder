@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Admin {
 
 
+
 	public function __construct() {
 		\add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
 		\add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
@@ -17,8 +18,8 @@ class Admin {
 	public function enqueue_admin_assets( string $hook ): void {
 		global $post;
 
-		if ( $hook === 'post.php' || $hook === 'post-new.php' ) {
-			if ( isset( $post ) && $post->post_type === 'msf_form' ) {
+		if ( 'post.php' === $hook || 'post-new.php' === $hook ) {
+			if ( isset( $post ) && 'msf_form' === $post->post_type ) {
 				\wp_enqueue_script(
 					'msf-admin',
 					\plugin_dir_url( __DIR__ ) . 'build/admin.js',
@@ -53,7 +54,7 @@ class Admin {
 				FILTER_SANITIZE_FULL_SPECIAL_CHARS
 			)
 		);
-		if ( $page === 'msf-submissions' ) {
+		if ( 'msf-submissions' === $page ) {
 			\wp_enqueue_script(
 				'msf-admin',
 				\plugin_dir_url( __DIR__ ) . 'build/admin.js',

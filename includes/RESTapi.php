@@ -95,7 +95,7 @@ class RESTapi {
 
 	public function save_form( \WP_REST_Request $request ): \WP_REST_Response {
 		$form_id     = $request->get_param( 'id' );
-		$form_config = json_encode( $request->get_json_params() );
+		$form_config = wp_json_encode( $request->get_json_params() );
 
 		\update_post_meta( $form_id, '_msf_form_config', $form_config );
 
@@ -112,7 +112,7 @@ class RESTapi {
 		$data    = $request->get_json_params();
 
 		$post = \get_post( $form_id );
-		if ( ! $post || $post->post_type !== 'msf_form' ) {
+		if ( ! $post || 'msf_form' !== $post->post_type ) {
 			return new \WP_Error( 'invalid_form', 'Invalid form ID', array( 'status' => 404 ) );
 		}
 
@@ -157,8 +157,10 @@ class RESTapi {
 
 	public function get_submissions( \WP_REST_Request $request ): \WP_REST_Response {
 		$form_id  = $request->get_param( 'id' );
-		$page     = $request->get_param( 'page' ) ?: 1;
-		$per_page = $request->get_param( 'per_page' ) ?: 50;
+		$page     = $request->get_param( 'page' )
+			? (int) $request->get_param( 'page' ) : 1;
+		$per_page = $request->get_param( 'per_page' )
+			? (int) $request->get_param( 'per_page' ) : 50;
 
 		$offset = ( $page - 1 ) * $per_page;
 
@@ -209,11 +211,11 @@ class RESTapi {
 					continue;
 				}
 
-				if ( $field['type'] === 'email' && ! empty( $field_value ) && ! \is_email( $field_value ) ) {
+				if ( 'email' === $field['type'] && ! empty( $field_value ) && ! \is_email( $field_value ) ) {
 					$errors[ $field_name ] = 'Please enter a valid email address';
 				}
 
-				if ( $field['type'] === 'url' && ! empty( $field_value ) && ! filter_var( $field_value, FILTER_VALIDATE_URL ) ) {
+				if ( 'url' === $field['type'] && ! empty( $field_value ) && ! filter_var( $field_value, FILTER_VALIDATE_URL ) ) {
 					$errors[ $field_name ] = 'Please enter a valid URL';
 				}
 			}
