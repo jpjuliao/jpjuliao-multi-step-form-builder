@@ -2,12 +2,11 @@
 
 namespace JPJULIAO\Wordpress\MultiStepFormBuilder;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined('ABSPATH')) {
+  exit;
 }
 
-
-class REST_API
+class RESTapi
 {
 
   private Database $database;
@@ -15,41 +14,41 @@ class REST_API
   public function __construct(Database $database)
   {
     $this->database = $database;
-    \add_action('rest_api_init', array($this, 'register_routes'));
+    \add_action('rest_api_init', [$this, 'register_routes']);
   }
 
   public function register_routes(): void
   {
 
-    \register_rest_route('msf/v1', '/forms/(?P<id>\d+)/submit', array(
+    \register_rest_route('msf/v1', '/forms/(?P<id>\d+)/submit', [
       'methods' => 'POST',
-      'callback' => array($this, 'submit_form'),
+      'callback' => [$this, 'submit_form'],
       'permission_callback' => '__return_true',
-    ));
+    ]);
 
-    \register_rest_route('msf/v1', '/forms/(?P<id>\d+)/submissions', array(
+    \register_rest_route('msf/v1', '/forms/(?P<id>\d+)/submissions', [
       'methods' => 'GET',
-      'callback' => array($this, 'get_submissions'),
-      'permission_callback' => array($this, 'check_admin_permission'),
-    ));
+      'callback' => [$this, 'get_submissions'],
+      'permission_callback' => [$this, 'check_admin_permission'],
+    ]);
 
-    \register_rest_route('msf/v1', '/forms/(?P<id>\d+)', array(
+    \register_rest_route('msf/v1', '/forms/(?P<id>\d+)', [
       'methods' => 'GET',
-      'callback' => array($this, 'get_form'),
+      'callback' => [$this, 'get_form'],
       'permission_callback' => '__return_true',
-    ));
+    ]);
 
-    \register_rest_route('msf/v1', '/forms/(?P<id>\d+)', array(
+    \register_rest_route('msf/v1', '/forms/(?P<id>\d+)', [
       'methods' => 'POST',
-      'callback' => array($this, 'save_form'),
-      'permission_callback' => array($this, 'check_admin_permission'),
-    ));
+      'callback' => [$this, 'save_form'],
+      'permission_callback' => [$this, 'check_admin_permission'],
+    ]);
 
-    \register_rest_route('msf/v1', '/submissions/(?P<id>\d+)', array(
+    \register_rest_route('msf/v1', '/submissions/(?P<id>\d+)', [
       'methods' => 'DELETE',
-      'callback' => array($this, 'delete_submission'),
-      'permission_callback' => array($this, 'check_admin_permission'),
-    ));
+      'callback' => [$this, 'delete_submission'],
+      'permission_callback' => [$this, 'check_admin_permission'],
+    ]);
   }
 
   public function get_form(\WP_REST_Request $request): \WP_REST_Response
@@ -63,15 +62,15 @@ class REST_API
     }
 
     if (empty($form_config) || !is_array($form_config)) {
-      $form_config = array(
-        'steps' => array(),
-        'settings' => array(
+      $form_config = [
+        'steps' => [],
+        'settings' => [
           'submitButtonText' => 'Submit',
           'successMessage' => 'Thank you for your submission!',
           'nextButtonText' => 'Next',
           'previousButtonText' => 'Previous',
-        )
-      );
+        ]
+      ];
     }
 
     return \rest_ensure_response($form_config);
@@ -84,10 +83,10 @@ class REST_API
 
     \update_post_meta($form_id, '_msf_form_config', $form_config);
 
-    return \rest_ensure_response(array(
+    return \rest_ensure_response([
       'success' => true,
       'message' => 'Form saved successfully'
-    ));
+    ]);
   }
 
   public function submit_form(\WP_REST_Request $request): \WP_REST_Response|\WP_Error
@@ -97,7 +96,7 @@ class REST_API
 
     $post = \get_post($form_id);
     if (!$post || $post->post_type !== 'msf_form') {
-      return new \WP_Error('invalid_form', 'Invalid form ID', array('status' => 404));
+      return new \WP_Error('invalid_form', 'Invalid form ID', ['status' => 404]);
     }
 
     $form_config = \get_post_meta($form_id, '_msf_form_config', true);
@@ -108,10 +107,10 @@ class REST_API
 
     $errors = $this->validate_submission($data, $form_config);
     if (!empty($errors)) {
-      return new \WP_Error('validation_failed', 'Validation failed', array(
+      return new \WP_Error('validation_failed', 'Validation failed', [
         'status' => 400,
         'errors' => $errors
-      ));
+      ]);
     }
 
     $sanitized_data = $this->sanitize_submission($data);
@@ -123,13 +122,13 @@ class REST_API
         ? $form_config['settings']['successMessage']
         : 'Thank you for your submission!';
 
-      return \rest_ensure_response(array(
+      return \rest_ensure_response([
         'success' => true,
         'message' => $success_message,
         'submission_id' => $submission_id
-      ));
+      ]);
     } else {
-      return new \WP_Error('submission_failed', 'Failed to save submission', array('status' => 500));
+      return new \WP_Error('submission_failed', 'Failed to save submission', ['status' => 500]);
     }
   }
 
@@ -144,13 +143,13 @@ class REST_API
     $submissions = $this->database->get_submissions($form_id, $per_page, $offset);
     $total = $this->database->get_submission_count($form_id);
 
-    return \rest_ensure_response(array(
+    return \rest_ensure_response([
       'submissions' => $submissions,
       'total' => $total,
       'page' => $page,
       'per_page' => $per_page,
       'total_pages' => ceil($total / $per_page)
-    ));
+    ]);
   }
 
   public function delete_submission(\WP_REST_Request $request): \WP_REST_Response|\WP_Error
@@ -160,15 +159,15 @@ class REST_API
     $result = $this->database->delete_submission($submission_id);
 
     if ($result) {
-      return \rest_ensure_response(array('success' => true));
+      return \rest_ensure_response(['success' => true]);
     } else {
-      return new \WP_Error('delete_failed', 'Failed to delete submission', array('status' => 500));
+      return new \WP_Error('delete_failed', 'Failed to delete submission', ['status' => 500]);
     }
   }
 
   private function validate_submission(array $data, array $form_config): array
   {
-    $errors = array();
+    $errors = [];
 
     if (empty($form_config['steps'])) {
       return $errors;
@@ -203,7 +202,7 @@ class REST_API
 
   private function sanitize_submission(array $data): array
   {
-    $sanitized = array();
+    $sanitized = [];
 
     foreach ($data as $key => $value) {
       if (is_array($value)) {

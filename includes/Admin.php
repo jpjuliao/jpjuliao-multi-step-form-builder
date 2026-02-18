@@ -2,9 +2,10 @@
 
 namespace JPJULIAO\Wordpress\MultiStepFormBuilder;
 
-if (! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
   exit;
 }
+
 class Admin
 {
 
@@ -94,13 +95,13 @@ class Admin
 
   public function render_submissions_page(): void
   {
-?>
+    ?>
     <div class="wrap">
       <h1>
         <?php esc_html_e('Form Submissions', 'jpjuliao-multi-step-form-builder'); ?>
       </h1>
       <div id="msf-submissions-root"></div>
     </div>
-<?php
+    <?php
   }
 }

@@ -17,11 +17,6 @@ if (!defined('ABSPATH')) {
   exit;
 }
 
-require_once plugin_dir_path(__FILE__) . 'includes/class-plugin.php';
+require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
 
-function init(): void
-{
-  Plugin::get_instance();
-}
-
-\add_action('plugins_loaded', __NAMESPACE__ . '\\init');
+\add_action('plugins_loaded', Plugin::get_instance(...));

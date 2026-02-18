@@ -2,10 +2,9 @@
 
 namespace JPJULIAO\Wordpress\MultiStepFormBuilder;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined('ABSPATH')) {
+  exit;
 }
-
 
 class Frontend
 {

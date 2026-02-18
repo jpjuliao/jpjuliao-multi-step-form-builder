@@ -2,6 +2,10 @@
 
 namespace JPJULIAO\Wordpress\MultiStepFormBuilder;
 
+if (!defined('ABSPATH')) {
+  exit;
+}
+
 class Database
 {
 
@@ -41,7 +45,7 @@ class Database
   {
     global $wpdb;
 
-    $user_id    = \get_current_user_id();
+    $user_id = \get_current_user_id();
     $ip_address = $this->get_client_ip();
     $user_agent = isset($_SERVER['HTTP_USER_AGENT'])
       ? \sanitize_text_field(\wp_unslash((string) $_SERVER['HTTP_USER_AGENT']))

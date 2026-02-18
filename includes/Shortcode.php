@@ -2,20 +2,24 @@
 
 namespace JPJULIAO\Wordpress\MultiStepFormBuilder;
 
+if (!defined('ABSPATH')) {
+  exit;
+}
+
 class Shortcode
 {
 
   public function __construct()
   {
-    \add_shortcode('multi_step_form', array($this, 'render_shortcode'));
-    \add_shortcode('multi_step_form_button', array($this, 'render_button_shortcode'));
+    \add_shortcode('multi_step_form', [$this, 'render_shortcode']);
+    \add_shortcode('multi_step_form_button', [$this, 'render_button_shortcode']);
   }
 
   public function render_shortcode(array $atts): string
   {
-    $atts = \shortcode_atts(array(
+    $atts = \shortcode_atts([
       'id' => 0,
-    ), $atts);
+    ], $atts);
 
     $form_id = intval($atts['id']);
 
@@ -36,10 +40,10 @@ class Shortcode
 
   public function render_button_shortcode(array $atts): string
   {
-    $atts = \shortcode_atts(array(
+    $atts = \shortcode_atts([
       'id' => 0,
       'label' => __('Open Form', 'jpjuliao-multi-step-form-builder'),
-    ), $atts);
+    ], $atts);
 
     $form_id = intval($atts['id']);
 

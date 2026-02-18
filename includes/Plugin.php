@@ -2,17 +2,21 @@
 
 namespace JPJULIAO\Wordpress\MultiStepFormBuilder;
 
+if (!defined('ABSPATH')) {
+  exit;
+}
+
 class Plugin
 {
 
   private static ?Plugin $instance = null;
 
   private Database $database;
-  private Post_Type $post_type;
+  private PostType $post_type;
   private Admin $admin;
   private Frontend $frontend;
   private Shortcode $shortcode;
-  private REST_API $rest_api;
+  private RESTapi $rest_api;
 
   public static function get_instance(): Plugin
   {
@@ -24,31 +28,20 @@ class Plugin
 
   private function __construct()
   {
-    $this->load_dependencies();
     $this->init_components();
 
     \register_activation_hook(dirname(__DIR__) . '/multi-step-form-builder.php', array($this, 'activate'));
     \register_deactivation_hook(dirname(__DIR__) . '/multi-step-form-builder.php', array($this, 'deactivate'));
   }
 
-  private function load_dependencies(): void
-  {
-    require_once \plugin_dir_path(__FILE__) . 'class-database.php';
-    require_once \plugin_dir_path(__FILE__) . 'class-post-type.php';
-    require_once \plugin_dir_path(__FILE__) . 'class-admin.php';
-    require_once \plugin_dir_path(__FILE__) . 'class-frontend.php';
-    require_once \plugin_dir_path(__FILE__) . 'class-shortcode.php';
-    require_once \plugin_dir_path(__FILE__) . 'class-rest-api.php';
-  }
-
   private function init_components(): void
   {
     $this->database = new Database();
-    $this->post_type = new Post_Type();
+    $this->post_type = new PostType();
     $this->admin = new Admin();
     $this->frontend = new Frontend();
     $this->shortcode = new Shortcode();
-    $this->rest_api = new REST_API($this->database);
+    $this->rest_api = new RESTapi($this->database);
   }
 
   public function activate(): void

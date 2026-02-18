@@ -2,12 +2,11 @@
 
 namespace JPJULIAO\Wordpress\MultiStepFormBuilder;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined('ABSPATH')) {
+  exit;
 }
 
-
-class Post_Type
+class PostType
 {
 
   public function __construct()
@@ -91,10 +90,10 @@ class Post_Type
 
   public function save_form_meta(int $post_id, \WP_Post $post): void
   {
-    $nonce = isset($_POST['msf_form_nonce']) 
-      ? sanitize_text_field(\wp_unslash($_POST['msf_form_nonce'])) 
+    $nonce = isset($_POST['msf_form_nonce'])
+      ? sanitize_text_field(\wp_unslash($_POST['msf_form_nonce']))
       : '';
-      
+
     if (!$nonce || !\wp_verify_nonce($nonce, 'msf_save_form')) {
       return;
     }
