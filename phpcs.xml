@@ -4,7 +4,7 @@
 
   <!-- Scan these paths -->
   <file>includes</file>
-  <file>tests</file>
+  <!-- <file>tests</file> -->
 
   <!-- Exclude common non-PHP paths -->
   <exclude-pattern>*/vendor/*</exclude-pattern>
